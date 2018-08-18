@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -11,11 +12,14 @@ import java.util.stream.Stream;
 class EventTxtRepository implements EventRepository {
     private PropertiesLoader propertiesLoader;
     private final EventLineParser parser;
+    private LocalDateParser localDateParser;
+
 
     public EventTxtRepository(PropertiesLoader propertiesLoader,
-                              EventLineParser parser) {
+                              EventLineParser parser, LocalDateParser localDateParser) {
         this.propertiesLoader = propertiesLoader;
         this.parser = parser;
+        this.localDateParser = localDateParser;
     }
 
     @Override
@@ -34,5 +38,18 @@ class EventTxtRepository implements EventRepository {
         }
     }
 
+    public Optional<Event> getCloserEvent() {
+        LocalDateTime actualDate = LocalDateTime.now();
+        LocalDateTime closestDate = LocalDateTime.MAX;
+        Event closestEvent = null;
 
+        for (Event event : getAll()) {
+            LocalDateTime dateToCompare = localDateParser.toLocalDateTime(event.getDate());
+            if (dateToCompare.isAfter(actualDate) && dateToCompare.isBefore(closestDate)) {
+                closestDate = dateToCompare;
+                closestEvent = event;
+            }
+        }
+        return Optional.ofNullable(closestEvent);
+    }
 }
