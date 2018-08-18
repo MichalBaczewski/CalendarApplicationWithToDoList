@@ -1,0 +1,13 @@
+9 SET name Przemek
+10 SET name2 Gienio Zaw
+11 GET name4 name
+12 PRINT hello
+13 PRINT hello2
+7897 GOTO 16
+14 PRINT hello kdfjs
+15 PRINT hello $name2 jest kolega $name $name
+16 PRINT hello $name4
+17 CAL 3+6
+111 CAL 2- 6
+112 CAL 1 - 5
+113 CAL 34 /0
