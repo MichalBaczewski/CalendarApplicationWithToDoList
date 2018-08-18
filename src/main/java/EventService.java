@@ -1,5 +1,6 @@
 import java.util.Optional;
 
+
 class EventService {
     private final EventRepository repository;
     private final LocalDateParser localDateParser;
@@ -25,11 +26,13 @@ class EventService {
     }
 
 
+
     private void printEvent(Event event) {
         System.out.println("Event name:" + event.getName());
         String string = localDateParser.toDisplayString(event.getDate());
         System.out.println("date: " + string);
     }
+
 
     private String getDisplayEvent(Event event) {
         String displayString = localDateParser.toDisplayString(event.getDate());
@@ -38,5 +41,6 @@ class EventService {
                 +"\ndate: "
                 + displayString;
     }
+
 
 }
