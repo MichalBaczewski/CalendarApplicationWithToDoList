@@ -16,7 +16,7 @@ public class EventLineParser {
         if (matcher.find()) {
             String date = matcher.group(1);
             String name = matcher.group(2);
-            return Optional.of(new Event(name, date));
+            return Optional.of(new Event(date, name));
         }
         return Optional.empty();
     }

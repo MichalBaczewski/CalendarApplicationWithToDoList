@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <calendar>
     <event date="16062018 13:49">Nazwa wydarzenia A</event>
-    <event date="23112017 12:21">Nazwa wydarzenia B</event>
-    <event date="16062018 13:49">Nowe wydarzenie</event>
+    <event date="23112017 12:21">Nazwa wydarzenia B>
+        <guest name="Piotrek" email="piotrek@piotrek.pl"/>
+        <guest name="Tomek" email="tomek@piotrek.pl"/>
+    </event>
+    <event date="16062019 13:49">Nowe wydarzenie C </event>
+    <event date="23112017 12:21">Nazwa dodanego wydarzenia</event>
 </calendar>

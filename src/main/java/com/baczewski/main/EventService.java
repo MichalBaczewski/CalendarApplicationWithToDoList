@@ -2,27 +2,32 @@ package com.baczewski.main;
 
 import com.baczewski.main.repository.EventRepository;
 
+import java.io.IOException;
 import java.util.Optional;
 
 
-class EventService {
+public class EventService {
     private final EventRepository repository;
     private final LocalDateParser localDateParser;
+    private final EventLineParser eventLineParser;
+    private final PropertiesLoader propertiesLoader;
 
     EventService(EventRepository repository,
-                 LocalDateParser localDateParser) {
+                 LocalDateParser localDateParser, EventLineParser eventLineParser, PropertiesLoader propertiesLoader) {
         this.repository = repository;
         this.localDateParser = localDateParser;
+        this.eventLineParser = eventLineParser;
+        this.propertiesLoader = propertiesLoader;
     }
 
-    void printAllEvents() {
+    public void printAllEvents() {
 //        for (Event event : repository.getAll()) {
 //            printEvent(event);
 //        }
         repository.getAll().forEach(this::printEvent);
     }
 
-    void printCloserEvent() {
+    public void printClosestEvent() {
         Optional<Event> event = repository.getCloserEvent();
         String display = event.map(this::getDisplayEvent)
                 .orElse("Nie ma najblizszego wydarzenia");
@@ -43,7 +48,14 @@ class EventService {
                 + displayString;
     }
 
-    private void addToCalendar(String eventString) {
-
+    public void saveEvent(String string) {
+        Optional<Event> eventOptional = eventLineParser.toEvent(string);
+        eventOptional.ifPresent(event -> {
+            try {
+                repository.saveEvent(event);
+            } catch (IOException e) {
+                System.out.println("Nie udało się zapisać wydarzenia.");
+            }
+        });
     }
 }
