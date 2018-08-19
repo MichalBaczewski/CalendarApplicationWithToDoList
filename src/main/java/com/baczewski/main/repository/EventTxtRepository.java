@@ -1,7 +1,15 @@
+package com.baczewski.main.repository;
+
+import com.baczewski.main.Event;
+import com.baczewski.main.EventLineParser;
+import com.baczewski.main.LocalDateParser;
+import com.baczewski.main.PropertiesLoader;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.time.LocalDateTime;
 
 import java.util.Collections;
@@ -54,6 +62,15 @@ class EventTxtRepository implements EventRepository {
             }
         }
         return Optional.ofNullable(closestEvent);
+    }
+
+    @Override
+    public void saveEvent(Event event) throws IOException {
+        Path path = Paths.get(propertiesLoader.getEventPath());
+        String line = parser.toLine(event);
+        Files.write(path,
+                line.getBytes(),
+                StandardOpenOption.APPEND);
     }
 
 }

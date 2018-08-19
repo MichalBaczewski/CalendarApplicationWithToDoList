@@ -1,3 +1,7 @@
+package com.baczewski.main;
+
+import com.baczewski.main.repository.EventRepository;
+
 import java.util.Optional;
 
 
@@ -25,14 +29,11 @@ class EventService {
         System.out.println(display);
     }
 
-
-
     private void printEvent(Event event) {
         System.out.println("Event name:" + event.getName());
         String string = localDateParser.toDisplayString(event.getDate());
         System.out.println("date: " + string);
     }
-
 
     private String getDisplayEvent(Event event) {
         String displayString = localDateParser.toDisplayString(event.getDate());
@@ -42,5 +43,7 @@ class EventService {
                 + displayString;
     }
 
+    private void addToCalendar(String eventString) {
 
+    }
 }

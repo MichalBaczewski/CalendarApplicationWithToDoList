@@ -1,10 +1,12 @@
+package com.baczewski.main;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-class LocalDateParser {
+public class LocalDateParser {
     private final PropertiesLoader propertiesLoader;
 
-    LocalDateParser(PropertiesLoader propertiesLoader) {
+    public LocalDateParser(PropertiesLoader propertiesLoader) {
         this.propertiesLoader = propertiesLoader;
 
     }
@@ -19,7 +21,7 @@ class LocalDateParser {
                 ofPattern(outputDateFormat);
         return localDateTime.format(formatter);
     }
-    LocalDateTime toLocalDateTime(String string){
+    public LocalDateTime toLocalDateTime(String string){
         String inputDateFormat = propertiesLoader.getInputDateFormat();
         DateTimeFormatter formatter = DateTimeFormatter.
                 ofPattern(inputDateFormat);
