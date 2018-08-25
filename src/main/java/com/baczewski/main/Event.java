@@ -19,7 +19,7 @@ public class Event {
     @XmlAttribute (name = "name")
     private String name;
     @XmlElement(name = "guest")
-    private List<Guest> eventList = new ArrayList<>();
+    private List<Guest> guestList = new ArrayList<>();
 
     public Event(String date, String name) {
         this.date = date;

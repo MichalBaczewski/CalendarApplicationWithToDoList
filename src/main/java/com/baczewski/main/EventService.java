@@ -1,5 +1,6 @@
 package com.baczewski.main;
 
+import com.baczewski.main.emmiter.EventCreationEmitter;
 import com.baczewski.main.repository.EventRepository;
 
 import java.io.IOException;
@@ -12,8 +13,7 @@ public class EventService {
     private final LocalDateParser localDateParser;
     private final EventLineParser eventLineParser;
     private final PropertiesLoader propertiesLoader;
-    private String name;
-    private String email;
+    private final EventCreationEmitter eventCreationEmitter;
 
     EventService(EventRepository repository,
                  LocalDateParser localDateParser, EventLineParser eventLineParser, PropertiesLoader propertiesLoader) {
@@ -21,6 +21,8 @@ public class EventService {
         this.localDateParser = localDateParser;
         this.eventLineParser = eventLineParser;
         this.propertiesLoader = propertiesLoader;
+        eventCreationEmitter = new EventCreationEmitter();
+        eventCreationEmitter.registerObserver(new PrintConsoleObserver());
     }
 
     public void printAllEvents() {
@@ -55,27 +57,29 @@ public class EventService {
                 + displayString;
     }
 
-    public void saveEvent(String string) {
-        Optional<Event> eventOptional = eventLineParser.toEvent(string);
-        eventOptional.ifPresent(event -> {
-            try {
-                repository.saveEvent(event);
-            } catch (IOException e) {
-                System.out.println("Nie udało się zapisać wydarzenia.");
-            }
-        });
+    public void saveEvent(Event event, Guest creator) {
+        try {
+            repository.saveEvent(event);
+            eventCreationEmitter.notifyObservers(event, creator);
+        } catch (IOException e) {
+            System.out.println("Nie udao się nam zapisac wiadomosci.");
+            e.printStackTrace();
+        }
     }
+
+//    public void saveEvent(String string) {
+//        Optional<Event> eventOptional = eventLineParser.toEvent(string);
+//        eventOptional.ifPresent(event -> {
+//            try {
+//                repository.saveEvent(event);
+//            } catch (IOException e) {
+//                System.out.println("Nie udało się zapisać wydarzenia.");
+//            }
+//        });
+//    }
 
     public void searchByGuestEmail(String email) {
         List<Event> eventsListWithGuest = repository.searchEventByGuestEmail(email);
         printEventList(eventsListWithGuest);
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 }

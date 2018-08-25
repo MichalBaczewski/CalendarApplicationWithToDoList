@@ -15,16 +15,9 @@ class CalendarApplication {
         RepositoryFactory eventFactory= new RepositoryFactory(propertiesLoader, localDateParser, eventLineParser);
         EventRepository eventRepository = eventFactory.getRepository();
         EventService eventService = new EventService(eventRepository, localDateParser, eventLineParser, propertiesLoader);
-        CommandRunner commandRunner = new CommandRunner(eventService);
-
-
+        UserRegistrationService registrationService = new UserRegistrationService();
+        CommandRunner commandRunner = new CommandRunner(eventService, registrationService);
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Podaj imię: ");
-        String scName = scanner.nextLine();
-        eventService.setName(scName);
-        System.out.println("Podaj email: ");
-        String scEmail = scanner.nextLine();
-        eventService.setEmail(scEmail);
         System.out.println("Podaj komendę (help - pomoc):");
         String s = scanner.nextLine();
         while (true) {

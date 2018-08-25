@@ -68,7 +68,7 @@ class EventXmlRepository implements EventRepository {
     }
 
     private boolean isEventContainsGuestWithEmail(Event event, String email) {
-        for (Guest guest : event.getEventList()) {
+        for (Guest guest : event.getGuestList()) {
             if (email.equalsIgnoreCase(guest.getEmail())) {
                 return true;
             }
