@@ -6,8 +6,10 @@ import javax.xml.bind.JAXB;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 class EventXmlRepository implements EventRepository {
 
@@ -43,6 +45,8 @@ class EventXmlRepository implements EventRepository {
         return Optional.ofNullable(closestEvent);
     }
 
+
+
     @Override
     public void saveEvent(Event event) throws IOException {
         File xml = new File(propertiesLoader.getEventPath());
@@ -50,4 +54,34 @@ class EventXmlRepository implements EventRepository {
         unmarshalCalendar.getEventList().add(event);
         JAXB.marshal(unmarshalCalendar, xml);
     }
+
+    @Override
+    public List<Event> searchEventByGuestEmail(String email) {
+        List<Event> allEvents = getAll();
+        List<Event> foundEvents = new ArrayList<>();
+        for (Event event : allEvents) {
+            if (isEventContainsGuestWithEmail(event, email)) {
+                foundEvents.add(event);
+            }
+        }
+        return foundEvents;
+    }
+
+    private boolean isEventContainsGuestWithEmail(Event event, String email) {
+        for (Guest guest : event.getEventList()) {
+            if (email.equalsIgnoreCase(guest.getEmail())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public List<Event> searchEventByGuestEmailWithStream(String email) {
+        List<Event> allEvents = getAll();
+        List<Event> foundEvents = allEvents.stream()
+                .filter(event -> isEventContainsGuestWithEmail(event, email))
+                .collect(Collectors.toList());
+        return foundEvents;
+    }
+
 }

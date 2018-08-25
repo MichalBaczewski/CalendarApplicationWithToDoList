@@ -15,6 +15,7 @@ public class CommandRunner {
         addCommand(new AddCommand(eventService));
         addCommand(new HelpCommand(commandMap));
         addCommand(new ExitCommand());
+        addCommand(new SearchCommand(eventService));
     }
 
     public void addCommand(Command command) {

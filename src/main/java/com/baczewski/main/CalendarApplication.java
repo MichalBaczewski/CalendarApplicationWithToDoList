@@ -17,18 +17,19 @@ class CalendarApplication {
         EventService eventService = new EventService(eventRepository, localDateParser, eventLineParser, propertiesLoader);
         CommandRunner commandRunner = new CommandRunner(eventService);
 
-        System.out.println("Podaj komendę (help - pomoc):");
+
         Scanner scanner = new Scanner(System.in);
+        System.out.println("Podaj imię: ");
+        String scName = scanner.nextLine();
+        eventService.setName(scName);
+        System.out.println("Podaj email: ");
+        String scEmail = scanner.nextLine();
+        eventService.setEmail(scEmail);
+        System.out.println("Podaj komendę (help - pomoc):");
         String s = scanner.nextLine();
         while (true) {
             commandRunner.runCommand(s);
             s = scanner.nextLine();
         }
-
-//        eventRepository.saveEvent(new Event("16062018 13:49", "Nowe wydarzenie"));
-//        System.out.println("================");
-//        eventService.printAllEvents();
-//        eventService.printClosestEvent();
-
     }
 }

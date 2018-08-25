@@ -12,6 +12,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.time.LocalDateTime;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -62,6 +63,12 @@ class EventTxtRepository implements EventRepository {
             }
         }
         return Optional.ofNullable(closestEvent);
+    }
+
+    @Override
+    public List<Event> searchEventByGuestEmail(String email) {
+        List<Event> foundEventWithGuest = new ArrayList<>();
+        return foundEventWithGuest;
     }
 
     @Override

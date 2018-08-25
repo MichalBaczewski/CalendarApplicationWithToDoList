@@ -3,6 +3,7 @@ package com.baczewski.main;
 import com.baczewski.main.repository.EventRepository;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -11,6 +12,8 @@ public class EventService {
     private final LocalDateParser localDateParser;
     private final EventLineParser eventLineParser;
     private final PropertiesLoader propertiesLoader;
+    private String name;
+    private String email;
 
     EventService(EventRepository repository,
                  LocalDateParser localDateParser, EventLineParser eventLineParser, PropertiesLoader propertiesLoader) {
@@ -40,6 +43,10 @@ public class EventService {
         System.out.println("date: " + string);
     }
 
+    private void printEventList(List<Event> eventList) {
+        eventList.forEach(this::printEvent);
+    }
+
     private String getDisplayEvent(Event event) {
         String displayString = localDateParser.toDisplayString(event.getDate());
         return "Event name:"
@@ -57,5 +64,18 @@ public class EventService {
                 System.out.println("Nie udało się zapisać wydarzenia.");
             }
         });
+    }
+
+    public void searchByGuestEmail(String email) {
+        List<Event> eventsListWithGuest = repository.searchEventByGuestEmail(email);
+        printEventList(eventsListWithGuest);
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

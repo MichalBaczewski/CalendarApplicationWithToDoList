@@ -9,6 +9,7 @@ import java.util.Optional;
 public interface EventRepository {
         List<Event> getAll();
         Optional<Event> getCloserEvent();
+        List<Event> searchEventByGuestEmail(String email);
 
         void saveEvent(Event event) throws IOException;
 }
